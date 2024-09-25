@@ -1,0 +1,52 @@
+﻿location: westeurope
+name: ps-database
+resourceGroup: Maersk
+type: Microsoft.App/containerApps
+tags:
+  database: mssql
+properties:
+  managedEnvironmentId: /subscriptions/b61c14ee-0646-4d4a-857a-7e76d6a5065c/resourceGroups/Maersk/providers/Microsoft.App/managedEnvironments/psaca
+  configuration:
+    activeRevisionsMode: Multiple
+    secrets:
+      - name: dbpass
+        value: Test_1234567
+    ingress:
+      external: true
+      allowInsecure: false
+      targetPort: 1433
+      traffic:
+        - latestRevision: true
+          weight: 100
+      transport: Auto
+  template:
+    revisionSuffix: rev-1
+    containers:
+      - image: mcr.microsoft.com/mssql/server:2019-latest
+        name: mssql
+        env:
+          - name: MSSQL_PID
+            value: "Developer"
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: "MSSQL_SA_PASSWORD"
+            secretRef: dbpass
+        resources:
+          cpu: 1
+          memory: 2Gi
+        probes:
+          - type: readiness
+            tcpSocket:
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 3
+        volumeMounts:
+          - mountPath: /var/opt/mssql
+            volumeName: datadrive
+    scale:
+      minReplicas: 1
+      maxReplicas: 1
+    volumes:
+      - name: datadrive
+        storageType: AzureFile
+        storageName: psstoor

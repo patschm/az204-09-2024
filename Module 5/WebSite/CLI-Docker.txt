@@ -1,0 +1,5 @@
+﻿docker login psreppo.azurecr.io
+docker build -t website:v1 -f WebSite\Dockerfile .
+docker run -p 8081:80 -e DEMO_MESSAGE=Docker website:dev
+docker tag website:v1 psreppo.azurecr.io/website:v1
+docker push psreppo.azurecr.io/website:v1

@@ -1,0 +1,32 @@
+﻿// Container App is pretty new. Requires extension for Azure CLI
+az upgrade
+az extension add --name containerapp --upgrade
+az provider register --namespace Microsoft.App
+az provider register --namespace Microsoft.OperationalInsights
+
+// Create Resource Group
+az group create -n Maersk --location westeurope
+
+// Create an Identity to access acr
+az identity create -n ps-identity -g Maersk
+// Get Identity ID of the user-assigned identity
+IdentityID = $(az identity show -g Maersk -n ps-identity --query id)
+// Get service principalID of the user-assigned identity
+PrincipalID = $(az identity show -g Maersk -n ps-identity --query principalId)
+// Get the ResourceID (Azure Container Registry)
+ResourceID = $(az acr show -g Maersk -n psreppo --query id)
+// Assign rights
+az role assignment create --assignee PrincipalID --scope ResourceID --role acrpull
+
+//Simple???
+az containerapp env create -n ps-maersk-app -g Maersk -l westeurope
+az containerapp create -n ps-simple-app -g Maersk  --environment ps-maersk-app  -i psreppo.azurecr.io/website:v1 --user-assigned IdentityID --registry-identity IdentityID --registry-server psreppo.azurecr.io --env-vars DEMO_MESSAGE="Hello Container App" --target-port 80  --ingress external --query properties.configuration.ingress.fqdn
+
+// Create a file share first. 
+az storage account create -g Maersk -n pscontainer -l westeurope --sku Standard_LRS
+az storage share create  -n database --account-name pscontainer
+
+// In App Environment register the share (Portal)
+
+// Get yaml file from container app
+az containerapp create -n ps-database -g Maersk --environment ps-maersk-app --yaml WebSite\ContainerApp.yaml

@@ -1,0 +1,14 @@
+﻿az group create -n Maersk --location westeurope
+az container create -g Maersk -n website --image psreppo.azurecr.io/website:v1 --dns-name-label ps-website --ports 80 -e DEMO_MESSAGE="Hello Aci"
+
+//multi container (Container Group)
+az container create -g Maersk --file ContainerGroup.yaml
+// Database connection info
+// server: tcp:20.8.73.150, 1433
+// username: sa
+// password: Test_1234567
+
+// Container Group with persistent drives (Note: Linux requires container to run as root. Use Cloned GitRepo otherwise)
+// Create a file share first. 
+az storage account create -g Maersk -n pscontainer -l westeurope --sku Standard_LRS
+az storage share create  -n database --account-name pscontainer

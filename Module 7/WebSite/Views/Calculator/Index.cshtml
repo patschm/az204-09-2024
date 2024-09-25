@@ -1,0 +1,36 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Config
+@addTagHelper *, Microsoft.FeatureManagement.AspNetCore
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        body{
+            background-color:@Config["Frontend:BackgroundColor"]
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to ACME Calculator</h1>
+        <feature name="help">
+            <h1><a asp-action="Help">Help</a></h1>
+        </feature>
+    </header>
+    <section>
+        <label>A</label><input type="number" name="vala" /><br />
+        <label>B</label><input type="number" name="valb" /><br /><br/>
+        <button type="button" id="btnAdd">Add</button>
+        <feature name="subtract">
+            <br/>
+            <button type="button" id="btnSubtract">Subtract</button>
+        </feature>
+        <hr />
+        <h1 id="result"></h1>
+        <input type="hidden" id="subtract" value="@ViewBag.FeatureSubtract" />
+    </section>
+    <script src="~/js/calculator.js" type="module"></script>
+    <script src="~/js/index.js" type="module"></script>
+</body>
+</html>

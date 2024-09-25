@@ -1,0 +1,24 @@
+﻿// Case Sensitive
+// See https://learn.microsoft.com/en-us/training/modules/author-complex-queries-azure-cosmos-db-sql-api/
+
+SELECT * FROM c WHERE c.id = 'product_1'
+SELECT * FROM c WHERE c.Name = 'D7200'
+SELECT * FROM c WHERE c.BrandId = 'brand_47'
+SELECT * FROM c WHERE CONTAINS(c.Name, '300')
+SELECT * FROM c WHERE STARTSWITH(c.Name, 'D') OR ENDSWITH(c.Name, '300')
+SELECT * FROM c WHERE IS_DEFINED(c.Name)
+
+// Works for sub collections
+SELECT m, p.Name FROM metas m
+    JOIN p IN m.Products
+    WHERE m.id = 'brand_1'
+
+// Sub Queries
+SELECT 
+    p.id,
+    p.name,
+    t.name AS tag
+FROM 
+    products p
+JOIN
+    (SELECT VALUE t FROM t IN p.tags WHERE t.class = 'trade-in') AS t

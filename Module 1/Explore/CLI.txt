@@ -1,0 +1,8 @@
+﻿dotnet publish -o Dist
+cd Dist
+run Powershell: Compress-Archive * publish.zip
+
+az group create --name TestGroup --location westeurope
+az appservice plan create -g TestGroup -n ps-testing-plan --location westeurope --sku S1
+az webapp create -g TestGroup -p ps-testing-plan -n ps-testing
+az webapp deployment source config-zip --src Dist\publish.zip

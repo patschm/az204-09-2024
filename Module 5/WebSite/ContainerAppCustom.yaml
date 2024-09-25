@@ -1,0 +1,36 @@
+﻿location: westeurope
+name: ps-database
+resourceGroup: Maersk
+type: Microsoft.App/containerApps
+tags:
+  database: simpleapp
+properties:
+  managedEnvironmentId: /subscriptions/b61c14ee-0646-4d4a-857a-7e76d6a5065c/resourceGroups/Maersk/providers/Microsoft.App/managedEnvironments/psaca
+  configuration:
+    activeRevisionsMode: Multiple
+    secrets:
+      - name: acrpass
+        value: 5tdAOZj/EVIBuwFPOXegCvODbKQo+oKF1tkhmMR8d6+ACRAgCRD1
+    ingress:
+      external: true
+      allowInsecure: false
+      targetPort: 80
+      traffic:
+        - latestRevision: true
+          weight: 100
+      transport: Auto
+    registries:
+      - passwordSecretRef: acrpass
+        server: psrepo.azurecr.io
+        username: psrepo
+  template:
+    revisionSuffix: rev-1
+    containers:
+      - image: psrepo.azurecr.io/simple:v1
+        name: simpl
+        resources:
+          cpu: 1
+          memory: 2Gi
+    scale:
+      minReplicas: 1
+      maxReplicas: 2
