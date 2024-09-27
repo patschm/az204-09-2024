@@ -27,14 +27,14 @@ namespace KeyVault
         static string tenentId = "030b09d5-7f0f-40b0-8c01-03ac319b2d71";
         static string clientId = "06a90d24-bc74-40b5-ad73-1f5c06bf9355";
         static string clientSecret = "5cN8Q~G~TP.ILSrge9GLMtzA55bFxSH4nXSAEcch";
-        static string kvUri = "https://ps-kluisjes.vault.azure.net/";
+        static string kvUri = "https://ps-sleutels.vault.azure.net/";
         
         static async Task Main(string[] args)
         {
             //clientSecret = Environment.GetEnvironmentVariable("GEHEIM");
            //await ReadKeyVault();
            //await ReadConfigurationLocalAsync();
-          await ReadAppConfigurationAsync();
+           await ReadAppConfigurationAsync();
 
             Console.WriteLine("Done");
             Console.ReadLine();
@@ -74,7 +74,7 @@ namespace KeyVault
             //ClientSecretCredential cred = new ClientSecretCredential(tenentId, clientId, clientSecret);
             //var env = Environment.GetEnvironmentVariable("Bla");
             // builder.AddAzureKeyVault(new Uri(kvUri), cred);
-
+           // builder.AddJsonFile("appsettings.json");
             builder.AddAzureAppConfiguration(opts =>
             {
                 opts.ConfigureKeyVault(kvopts =>
@@ -82,23 +82,23 @@ namespace KeyVault
                     kvopts.SetCredential(new DefaultAzureCredential());
                 });
                 //Console.WriteLine(Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT"));
-                opts.Connect("Endpoint=https://ps-config.azconfig.io;Id=Xyxn;Secret=I014kK0XDWbG11aGYlsh63+fFHC/Zky1yQXoyDfuLiU=")
+                opts.Connect("Endpoint=https://ps-dictator.azconfig.io;Id=qb3t;Secret=FkYmX38k8Z9nU5G8pqCPLjMiSNsZuihYWeqnGqhmmLBv5titggAZJQQJ99AIAC5RqLJJs58ZAAACAZACIoj6")
                     .Select(KeyFilter.Any, "Production")
-                     .TrimKeyPrefix("KeyVault:");
+                     .TrimKeyPrefix("KeyVault:AppConfiguration:");
                 //opts.ConfigureRefresh(refr => refr.Register("*", true));
-                opts.UseFeatureFlags(conf =>
-                {
-                    conf.Select(KeyFilter.Any, "Production");
-                    conf.CacheExpirationInterval = TimeSpan.FromSeconds(10);
-                });
+                //opts.UseFeatureFlags(conf =>
+                //{
+                //    conf.Select(KeyFilter.Any, "Production");
+                //    conf.CacheExpirationInterval = TimeSpan.FromSeconds(10);
+                //});
             }); 
                 IConfiguration conf = builder.Build();
                 
-                Console.WriteLine($"{conf["MySetings:hello"]}");
-            Console.WriteLine($"{conf["MySetings:secret"]}");
+                Console.WriteLine($"{conf["Color"]}");
+                Console.WriteLine($"{conf["MySecret"]}");
                 //Console.WriteLine($"Hello {conf["ConnectionString"]}");
               //  Console.WriteLine(conf["KlantA:KeyVault:BackgroundColor"]);
-               Console.WriteLine($"{conf["KV"]}");
+              // Console.WriteLine($"{conf["KV"]}");
 
                 IServiceCollection services = new ServiceCollection();
                 services.AddFeatureManagement(conf);

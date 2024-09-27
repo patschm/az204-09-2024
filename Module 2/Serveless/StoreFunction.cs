@@ -56,7 +56,7 @@ public static class StoreFunction
         [BlobTrigger("container/{name}")] string myTriggerItem,
         //[BlobInput("test-samples-input/sample1.txt")] string myBlob,
         [Blob("input/{name}", FileAccess.Write)] Stream imageSmall,
-        [Blob("input/{name}", FileAccess.Write)] Stream imageMedium,
+        [Blob("output/{name}", FileAccess.Write)] Stream imageMedium,
          FunctionContext context)
     {
         var logger = context.GetLogger("BlobFunction");

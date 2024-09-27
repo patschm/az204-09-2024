@@ -6,10 +6,10 @@ namespace QueueWriter;
 
 class Program
 {
-    static string EndPoint = "ps-endpoint.servicebus.windows.net";
+    static string EndPoint = "zeurpot.servicebus.windows.net";
     static (string Name, string Key) SasKeyManager = ("RootManageSharedAccessKey","V7CAvAexUPQ38rs/vI03cKo4xgUctnmL7HuUlkLva+4=");
-    static (string Name, string Key)  SasKeyWriter = ("Writer", "sY42vtezJKpZ3/s/eIrHghwcwi9FXIliP+ASbOgQj5A=");
-    static string QueueName = "myqueue";
+    static (string Name, string Key)  SasKeyWriter = ("schrijvert", "BwR2gmpIG0n78226CyHNIsbRkKEORdvC8+ASbDSN/QI=");
+    static string QueueName = "ookduur";
 
     static async Task Main(string[] args)
     {
@@ -31,7 +31,7 @@ class Program
         do
         {
             var msg = new ServiceBusMessage(BinaryData.FromString("Hello World " + (++i).ToString()));
-            //msg.SessionId = "me";
+            msg.SessionId = "me" + (i% 2);
             msg.ContentType = "string";
             msg.TimeToLive = TimeSpan.FromSeconds(30);
             //msg.ReplyTo

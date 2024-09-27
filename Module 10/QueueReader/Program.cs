@@ -5,9 +5,9 @@ namespace QueueReader;
 
 class Program
 {
-    static string EndPoint = "ps-endpoint.servicebus.windows.net";
-    static (string Name, string KeY) SasKeyReader = ("Reader", "oXmvelE3biUESosx0Vy2ErbHPmlNamVvS+ASbBjLayY=");
-    static string QueueName = "myqueue";
+    static string EndPoint = "zeurpot.servicebus.windows.net";
+    static (string Name, string KeY) SasKeyReader = ("lezert", "a046w/CVaKuuT1l+UGxrol3mKqhXReuZU+ASbFnHS3s=");
+    static string QueueName = "ookduur";
 
     static async Task Main(string[] args)
     {
@@ -39,12 +39,12 @@ class Program
     {
         var cred = new AzureNamedKeyCredential(SasKeyReader.Name, SasKeyReader.KeY);
         var client = new ServiceBusClient(EndPoint, cred);
-        var receiver = client.CreateProcessor(QueueName);
-        //var receiver = client.CreateSessionProcessor(QueueName);
+        //var receiver = client.CreateProcessor(QueueName);
+        var receiver = client.CreateSessionProcessor(QueueName);
         int i = 0;
         receiver.ProcessMessageAsync += async evtArg => {
             var msg = evtArg.Message;
-            Console.WriteLine($"Lock Duration: {msg.LockedUntil} Lock Token: {msg.LockToken}");
+            Console.WriteLine($"Lock Duration: {msg.LockedUntil} Lock Token: {msg.LockToken} (Session: {msg.SessionId})");
             var data = msg.Body.ToString();
             if (++i % 5 == 0)             
                 throw new Exception("Ooops");

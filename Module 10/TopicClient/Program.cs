@@ -6,8 +6,8 @@ namespace TopicClient;
 
 class Program
 {
-    static string EndPoint = "ps-endpoint.servicebus.windows.net";
-    static (string Name, string Key) SasKeyManager = ("RootManageSharedAccessKey", "mU+29quVrYMlpRuDDpkNqT3IoeDYaZerT+ASbBbY7L8=");
+    static string EndPoint = "zeurpot.servicebus.windows.net";
+    static (string Name, string Key) SasKeyManager = ("RootManageSharedAccessKey", "pexVcAvMU7tf9NlgRiC3F/AEZ0xbdUcXG+ASbILddSg=");
     static (string Name, string Key) SasKeyWriter = ("Writer", "rwAZXKGsA3dQsA9L7/RL00ixhZGZbsd4f+ASbHDnqYo=");
     static string TopicName = "ze-topic";
 
@@ -55,7 +55,7 @@ class Program
 
     private static async Task WriteToTopicAsync()
     {
-        var cred = new AzureNamedKeyCredential(SasKeyWriter.Name, SasKeyWriter.Key);
+        var cred = new AzureNamedKeyCredential(SasKeyManager.Name, SasKeyManager.Key);
         var client = new ServiceBusClient(EndPoint, cred);
         var sender = client.CreateSender(TopicName);
 

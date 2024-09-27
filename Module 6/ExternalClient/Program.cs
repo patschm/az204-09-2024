@@ -3,11 +3,11 @@ using Microsoft.Identity.Client;
 
 internal class Program
 {
-    private static string ServiceUrl = "https://localhost:7260/";
+    private static string ServiceUrl = "https://localhost:7215/";
     private static async Task Main(string[] args)
     {
-        //await DoTheCodeFlowAsync();
-        await DoTheCredentialFlowAsync();
+        await DoTheCodeFlowAsync();
+        //await DoTheCredentialFlowAsync();
         
         Console.ReadLine();
     }
@@ -19,14 +19,14 @@ internal class Program
         //    This prepares Code Grant Flow
         // 2) Set Redirect Uri to http://localhost (must be http. Port is optional)
         var bld = PublicClientApplicationBuilder
-            .Create("06a90d24-bc74-40b5-ad73-1f5c06bf9355")
+            .Create("2b258ef1-b2fc-411d-a4d1-f817bfc1d185")
             .WithAuthority(AzureCloudInstance.AzurePublic, "030b09d5-7f0f-40b0-8c01-03ac319b2d71")
             .WithRedirectUri("http://localhost:9898/");  // http scheme only!
 
         var app = bld.Build();
         // .AcquireTokenByUsernamePassword
         var token = await app.AcquireTokenInteractive(
-            new string[] { "api://06a90d24-bc74-40b5-ad73-1f5c06bf9355/Read" })
+            new string[] { "api://2b258ef1-b2fc-411d-a4d1-f817bfc1d185/ApiY/Bla" })
             .ExecuteAsync();
 
         Console.WriteLine(token.AccessToken);

@@ -5,8 +5,8 @@ namespace SubscriptionClient;
 
 class Program
 {
-    static string EndPoint = "ps-endpoint.servicebus.windows.net";
-    static (string Name, string KeY) SasKeyReader = ("Reader", "Gr7JroSkRKriUgN3P0lfaHaMbY10UtMbo+ASbCTbVow=");
+    static string EndPoint = "zeurpot.servicebus.windows.net";
+    static (string Name, string KeY) SasKeyReader = ("Reader", "1ZFQvtC/Xv8sEcsyoUX6sQszCAd2lvYwn+ASbFH/awU=");
     static string TopicName = "ze-topic";
 
     static async Task Main(string[] args)

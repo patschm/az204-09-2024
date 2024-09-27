@@ -20,7 +20,7 @@ namespace AppInsightTest
         static void Main(string[] args)
         {
             configuration = TelemetryConfiguration.CreateDefault();
-            configuration.ConnectionString = "InstrumentationKey=45a86d29-1e56-40da-8217-97a450462af3;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=e1455b58-8f7f-4072-9725-5b1562571330";
+            configuration.ConnectionString = "InstrumentationKey=14cfff9f-681d-4fd5-9161-8442e6926567;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=6aacfdc9-086c-4851-9996-66cdc0536145";
             TeleChannels(configuration, local:false);
 
 
@@ -36,6 +36,7 @@ namespace AppInsightTest
             LiveMetricsSingUp(configuration);
             
             // Special ILogger
+            //ILogger<Program> lof = new ApplicationInsightsLogger<Program>();
             logger = new ApplicationInsightsLogger("Console", telemetryClient, new ApplicationInsightsLoggerOptions { });
             WriteData();
             Console.WriteLine("Hello World!");

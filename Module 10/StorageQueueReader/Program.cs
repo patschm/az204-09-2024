@@ -16,9 +16,9 @@ class Program
 
     private static async Task ReadFromQueueAsync()
     {
-        //var token = new AzureSasCredential("?sv=2022-11-02&ss=q&srt=so&sp=rdlp&se=2023-12-15T16:49:55Z&st=2023-12-15T08:49:55Z&spr=https&sig=8peoDlLAe6eifwZZWGTPm5Btd5BsEa%2FKdD%2FbOfdKMsI%3D");
-        //var client = new QueueClient(new Uri("https://psstoring.queue.core.windows.net/kassa"), token);
-        var client = new QueueClient(ConnectionString, QueueName);
+        var token = new AzureSasCredential("?sv=2022-11-02&ss=q&srt=so&sp=rwdacp&se=2024-09-27T15:45:25Z&st=2024-09-27T07:45:25Z&spr=https&sig=9Dk9zVpfpCilobg60VtcdojtcVIXRP%2BGm6t8q7qV0D0%3D");
+        var client = new QueueClient(new Uri("https://psstatehup.queue.core.windows.net/kueueue"), token);
+        //var client = new QueueClient(ConnectionString, QueueName);
         int i = 0;
         do
         {
